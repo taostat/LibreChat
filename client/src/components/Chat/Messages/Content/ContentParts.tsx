@@ -15,6 +15,7 @@ import { EditTextPart, EmptyText, AgentUpdate } from './Parts';
 import { MessageContext, SearchContext } from '~/Providers';
 import PendingSkillCall from './Parts/PendingSkillCall';
 import ActivityPhaseGroup from './ActivityPhaseGroup';
+import PendingSteers from './Parts/PendingSteers';
 import ApprovalProvider from './ApprovalContext';
 import MemoryArtifacts from './MemoryArtifacts';
 import Sources from '~/components/Web/Sources';
@@ -523,6 +524,9 @@ const ContentParts = memo(function ContentParts({
               )
             ),
           )}
+          {isLast && isSubmitting && conversationId != null && (
+            <PendingSteers conversationId={conversationId} />
+          )}
         </SearchContext.Provider>
       </ApprovalProvider>
     );
@@ -556,6 +560,9 @@ const ContentParts = memo(function ContentParts({
           showDecorations={!nestedActivityPhase}
           contentIndexOffset={contentIndexOffset}
         />
+        {!nestedActivityPhase && isLast && isSubmitting && conversationId != null && (
+          <PendingSteers conversationId={conversationId} />
+        )}
       </>
     );
     return nestedActivityPhase ? (
@@ -611,6 +618,9 @@ const ContentParts = memo(function ContentParts({
         );
         return nodes;
       })}
+      {!nestedActivityPhase && isLast && isSubmitting && conversationId != null && (
+        <PendingSteers conversationId={conversationId} />
+      )}
     </SearchContext.Provider>
   );
   if (nestedActivityPhase) {
